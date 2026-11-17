@@ -1,165 +1,214 @@
 <!DOCTYPE html>
-<html lang="pa">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITI Trainee Verification Portal</title>
-    <!-- Tailwind CSS CDN -->
+    <title>NCVT MIS - Trainee Profile Verification</title>
+    <!-- Tailwind CSS for clean layout -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @media print {
             body { background: white; }
             .no-print { display: none; }
         }
+        .gov-header { background: linear-gradient(to bottom, #1a365d, #0f2942); }
     </style>
 </head>
-<body class="bg-gray-100 font-sans text-gray-800">
+<body class="bg-gray-100 font-sans text-gray-900 min-h-screen flex flex-col justify-between">
 
-    <!-- Top Header -->
-    <header class="bg-white shadow-sm border-b border-gray-200 py-3 px-4">
-        <div class="max-w-3xl mx-auto flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <span class="bg-blue-600 text-white font-bold text-xs px-2.5 py-1 rounded">ITI VERIFIED</span>
-                <span class="text-sm font-semibold text-gray-700">National Skill Development Portal</span>
-            </div>
-            <div>
-                <button onclick="window.print()" class="no-print bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-semibold px-3 py-1.5 rounded transition">Print / Save PDF</button>
+    <div>
+        <!-- Government Top Bar -->
+        <div class="bg-slate-800 text-white text-xs py-1.5 px-4">
+            <div class="max-w-5xl mx-auto flex justify-between items-center">
+                <span>Ministry of Skill Development and Entrepreneurship, Government of India</span>
+                <span class="hidden sm:inline">NCVT Management Information System (MIS)</span>
             </div>
         </div>
-    </header>
 
-    <!-- Main Container -->
-    <main class="max-w-3xl mx-auto my-6 bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
-        
-        <!-- Heading -->
-        <div class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white text-center py-4 px-6">
-            <h1 class="text-xl font-bold tracking-wide">Trainee Profile & Marksheet</h1>
-            <p class="text-xs text-blue-200 mt-1">Official Certificate & QR Code Verification System</p>
-        </div>
-
-        <!-- Trainee Details Section -->
-        <div class="p-6 border-b border-gray-200">
-            <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
-                <!-- Trainee Photo -->
-                <div class="flex-shrink-0">
-                    <img id="trainee-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" alt="Trainee Photo" class="w-28 h-28 rounded-full object-cover border-4 border-blue-100 shadow">
+        <!-- Main Portal Header -->
+        <header class="gov-header text-white shadow-md py-4 px-4 border-b-4 border-amber-500">
+            <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center">
+                <div class="flex items-center space-x-3 text-center sm:text-left">
+                    <div class="bg-white text-blue-900 font-extrabold p-2 rounded shadow text-xl tracking-wider">
+                        NCVT
+                    </div>
+                    <div>
+                        <h1 class="text-lg sm:text-xl font-bold tracking-wide">Trainee Profile Verification</h1>
+                        <p class="text-xs text-blue-200">National Council for Vocational Training</p>
+                    </div>
                 </div>
-                <!-- Basic Info -->
-                <div class="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm w-full">
-                    <div><span class="text-gray-500 block text-xs">Roll No</span><strong id="val-roll" class="text-gray-900">R190803019761</strong></div>
-                    <div><span class="text-gray-500 block text-xs">Name</span><strong id="val-name" class="text-gray-900">AJAY SINGH</strong></div>
-                    <div><span class="text-gray-500 block text-xs">Father Name</span><strong id="val-father" class="text-gray-900">MAJOR SINGH</strong></div>
-                    <div><span class="text-gray-500 block text-xs">Trade</span><strong id="val-trade" class="text-gray-900">Electrician (NSQF) [442]</strong></div>
-                    <div><span class="text-gray-500 block text-xs">Admission Year</span><strong id="val-admission" class="text-gray-900">2019</strong></div>
-                    <div><span class="text-gray-500 block text-xs">Date of Birth</span><strong id="val-dob" class="text-gray-900">03-Jun-2001</strong></div>
-                    <div><span class="text-gray-500 block text-xs">ITI Code & Name</span><strong id="val-iti" class="text-gray-900">GR03000313 - Bhan Suhella Pvt. Iti</strong></div>
-                    <div><span class="text-gray-500 block text-xs">Shift / Unit</span><strong id="val-shift" class="text-gray-900">Shift: 2 | Unit: 1</strong></div>
+                <div class="mt-3 sm:mt-0 no-print">
+                    <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold text-xs px-4 py-2 rounded shadow transition flex items-center space-x-1">
+                        <span>🖨️ Print / Save PDF</span>
+                    </button>
                 </div>
             </div>
-            <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between text-xs text-gray-600">
-                <span>Eligible to Reappear: <strong id="val-reappear" class="text-green-600">No</strong></span>
-                <span class="bg-green-100 text-green-800 px-2 py-0.5 rounded font-semibold" id="val-status-badge">Verified & Authentic</span>
-            </div>
-        </div>
+        </header>
 
-        <!-- Marks / Examination Table -->
-        <div class="p-6">
-            <h2 class="text-md font-bold text-gray-700 mb-3">Semester / Year Examination Marks</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse text-sm">
-                    <thead>
-                        <tr class="bg-gray-100 text-gray-700 uppercase text-xs">
-                            <th class="py-2.5 px-3 border-b">Subjects</th>
-                            <th class="py-2.5 px-3 border-b text-center">Max Marks</th>
-                            <th class="py-2.5 px-3 border-b text-center">Min Pass Marks</th>
-                            <th class="py-2.5 px-3 border-b text-center">Marks Obtained</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200 text-gray-700" id="marks-table-body">
-                        <tr>
-                            <td class="py-2.5 px-3">Trade Theory</td>
-                            <td class="py-2.5 px-3 text-center">100</td>
-                            <td class="py-2.5 px-3 text-center">33</td>
-                            <td class="py-2.5 px-3 text-center font-semibold">82</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2.5 px-3">Employability Skills</td>
-                            <td class="py-2.5 px-3 text-center">50</td>
-                            <td class="py-2.5 px-3 text-center">17</td>
-                            <td class="py-2.5 px-3 text-center font-semibold">41</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2.5 px-3">Workshop Calculation and Science</td>
-                            <td class="py-2.5 px-3 text-center">50</td>
-                            <td class="py-2.5 px-3 text-center">17</td>
-                            <td class="py-2.5 px-3 text-center font-semibold">38</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2.5 px-3">Engineering Drawing</td>
-                            <td class="py-2.5 px-3 text-center">50</td>
-                            <td class="py-2.5 px-3 text-center">17</td>
-                            <td class="py-2.5 px-3 text-center font-semibold">42</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2.5 px-3">Trade Practical</td>
-                            <td class="py-2.5 px-3 text-center">250</td>
-                            <td class="py-2.5 px-3 text-center">150</td>
-                            <td class="py-2.5 px-3 text-center font-semibold">210</td>
-                        </tr>
-                        <tr>
-                            <td class="py-2.5 px-3">Formative Assessment</td>
-                            <td class="py-2.5 px-3 text-center">200</td>
-                            <td class="py-2.5 px-3 text-center">120</td>
-                            <td class="py-2.5 px-3 text-center font-semibold">175</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr class="bg-gray-50 font-bold text-gray-900">
-                            <td class="py-3 px-3">Total Marks</td>
-                            <td class="py-3 px-3 text-center">700</td>
-                            <td class="py-3 px-3 text-center">-</td>
-                            <td class="py-3 px-3 text-center text-blue-600">588</td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-
-            <!-- Result Summary Box -->
-            <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col sm:flex-row justify-between items-center text-sm">
-                <div>
-                    <p class="text-gray-600">Result Date: <strong class="text-gray-900" id="val-res-date">26-Feb-2022</strong></p>
+        <!-- Main Content Container -->
+        <main class="max-w-5xl mx-auto my-6 px-3 sm:px-0">
+            <div class="bg-white shadow-lg rounded-md overflow-hidden border border-gray-300">
+                
+                <!-- Section Title Bar -->
+                <div class="bg-blue-900 text-white px-6 py-2.5 text-sm font-semibold flex justify-between items-center">
+                    <span>Trainee Permanent Details & Marksheet</span>
+                    <span class="bg-green-600 text-white text-xs px-2.5 py-1 rounded font-bold uppercase tracking-wider" id="val-status-badge">Verified</span>
                 </div>
-                <div class="mt-2 sm:mt-0">
-                    <span class="text-gray-600 mr-2">Final Result Status:</span>
-                    <span class="bg-green-600 text-white font-bold px-4 py-1.5 rounded-full uppercase text-xs" id="val-result">Pass</span>
+
+                <!-- Trainee Profile Info Box -->
+                <div class="p-6 border-b border-gray-200 bg-slate-50">
+                    <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
+                        
+                        <!-- Trainee Photo Box -->
+                        <div class="flex-shrink-0 text-center">
+                            <div class="w-32 h-36 bg-gray-200 border-2 border-gray-400 p-1 bg-white shadow-inner rounded">
+                                <img id="trainee-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" alt="Trainee Photo" class="w-full h-full object-cover">
+                            </div>
+                            <span class="inline-block mt-2 text-[11px] bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded border border-blue-200">ITI Verified</span>
+                        </div>
+
+                        <!-- Details Grid -->
+                        <div class="flex-grow grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-3 gap-x-6 text-sm w-full bg-white p-4 rounded border border-gray-200 shadow-sm">
+                            <div>
+                                <span class="text-gray-500 block text-xs">Registration No. / Roll No:</span>
+                                <strong id="val-roll" class="text-blue-900 font-bold">R190803019761</strong>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block text-xs">Trainee Name:</span>
+                                <strong id="val-name" class="text-gray-900 uppercase font-bold">Ajay Singh</strong>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block text-xs">Father's / Guardian's Name:</span>
+                                <strong id="val-father" class="text-gray-900 uppercase">Major Singh</strong>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block text-xs">Date of Birth:</span>
+                                <strong id="val-dob" class="text-gray-900">03-Jun-2001</strong>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block text-xs">Trade Name:</span>
+                                <strong id="val-trade" class="text-gray-900">Electrician (NSQF)</strong>
+                            </div>
+                            <div>
+                                <span class="text-gray-500 block text-xs">Academic Year:</span>
+                                <strong id="val-admission" class="text-gray-900">2019</strong>
+                            </div>
+                            <div class="sm:col-span-2 lg:col-span-3 pt-2 border-t border-gray-100">
+                                <span class="text-gray-500 block text-xs">ITI Name & Code:</span>
+                                <strong id="val-iti" class="text-gray-900">GR03000313 - Baba Farid ITI, Guru Har Sahai</strong>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Marks / Examination Table Section -->
+                <div class="p-6">
+                    <h3 class="text-sm font-bold text-slate-800 uppercase tracking-wider mb-3 pb-1 border-b border-gray-200">
+                        All Semester / Year Examination Marks Details
+                    </h3>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-sm border border-gray-300">
+                            <thead>
+                                <tr class="bg-blue-900 text-white uppercase text-xs">
+                                    <th class="py-2.5 px-3 border border-blue-800">Subject Name</th>
+                                    <th class="py-2.5 px-3 border border-blue-800 text-center">Max Marks</th>
+                                    <th class="py-2.5 px-3 border border-blue-800 text-center">Min Marks</th>
+                                    <th class="py-2.5 px-3 border border-blue-800 text-center">Marks Obtained</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 text-gray-800 bg-white">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-3 border border-gray-300">Trade Theory</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">100</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">33</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center font-semibold text-blue-900">82</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 bg-gray-50">
+                                    <td class="py-2 px-3 border border-gray-300">Employability Skills</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">50</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">17</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center font-semibold text-blue-900">41</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-3 border border-gray-300">Workshop Calculation & Science</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">50</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">17</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center font-semibold text-blue-900">38</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 bg-gray-50">
+                                    <td class="py-2 px-3 border border-gray-300">Engineering Drawing</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">50</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">17</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center font-semibold text-blue-900">42</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-2 px-3 border border-gray-300">Trade Practical</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">250</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">150</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center font-semibold text-blue-900">210</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 bg-gray-50">
+                                    <td class="py-2 px-3 border border-gray-300">Formative Assessment</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">200</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center">120</td>
+                                    <td class="py-2 px-3 border border-gray-300 text-center font-semibold text-blue-900">175</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-slate-200 font-bold text-slate-900">
+                                    <td class="py-2.5 px-3 border border-gray-300">Total Marks Obtained</td>
+                                    <td class="py-2.5 px-3 border border-gray-300 text-center">700</td>
+                                    <td class="py-2.5 px-3 border border-gray-300 text-center">-</td>
+                                    <td class="py-2.5 px-3 border border-gray-300 text-center text-blue-900 text-base">588 / 700</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <!-- Result Banner -->
+                    <div class="mt-6 bg-emerald-50 border-2 border-emerald-500 rounded p-4 flex flex-col sm:flex-row justify-between items-center text-sm shadow-sm">
+                        <div class="flex items-center space-x-2">
+                            <span class="text-2xl">✅</span>
+                            <div>
+                                <p class="text-gray-700 text-xs">Result Declaration Date: <strong class="text-slate-900" id="val-res-date">26-Feb-2022</strong></p>
+                                <p class="text-gray-700 text-xs mt-0.5">Verification Status: <strong class="text-emerald-700">Authenticated via NCVT MIS Server</strong></p>
+                            </div>
+                        </div>
+                        <div class="mt-3 sm:mt-0 text-center">
+                            <span class="text-xs text-gray-600 block">Final Status</span>
+                            <span class="bg-emerald-600 text-white font-extrabold px-6 py-1.5 rounded uppercase text-sm tracking-wider inline-block shadow" id="val-result">PASS</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </main>
+    </div>
 
-        <!-- Footer -->
-        <div class="bg-gray-50 py-3 px-6 text-center text-xs text-gray-500 border-t border-gray-200">
-            Digital Certificate Verification System &bull; Powered by GitHub Pages
-        </div>
-    </main>
+    <!-- Official Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs py-4 px-6 text-center border-t border-slate-800 mt-10">
+        <p class="max-w-4xl mx-auto">
+            Note: This portal is designed for instant digital verification of ITI certificates and mark sheets. 
+            <br>Contents owned, updated and maintained by Directorate General of Training (DGT), Ministry of Skill Development & Entrepreneurship, Govt. of India.
+        </p>
+    </footer>
 
-    <!-- JavaScript to handle Dynamic URL parameters (e.g. ?roll=R190803019761) -->
+    <!-- Dynamic JavaScript for URL parameters (e.g. ?roll=R190803019761) -->
     <script>
         const studentDatabase = {
             "R190803019761": {
                 roll: "R190803019761",
                 name: "AJAY SINGH",
                 father: "MAJOR SINGH",
-                trade: "Electrician (NSQF) [442]",
+                trade: "Electrician (NSQF)",
                 admission: "2019",
                 dob: "03-Jun-2001",
-                iti: "GR03000313 - Bhan Suhella Pvt. Iti",
-                shift: "Shift: 2 | Unit: 1",
-                reappear: "No",
+                iti: "GR03000313 - Baba Farid ITI, Guru Har Sahai",
                 resDate: "26-Feb-2022",
-                result: "Pass",
+                result: "PASS",
                 photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80"
             }
-            // ਤੁਸੀਂ ਇਸ ਵਿੱਚ ਹੋਰ ਸਟੂਡੈਂਟਸ ਦਾ ਡਾਟਾ ਵੀ ਜੋੜ ਸਕਦੇ ਹੋ
         };
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -174,8 +223,6 @@
             document.getElementById('val-admission').innerText = data.admission;
             document.getElementById('val-dob').innerText = data.dob;
             document.getElementById('val-iti').innerText = data.iti;
-            document.getElementById('val-shift').innerText = data.shift;
-            document.getElementById('val-reappear').innerText = data.reappear;
             document.getElementById('val-res-date').innerText = data.resDate;
             document.getElementById('val-result').innerText = data.result;
             document.getElementById('trainee-photo').src = data.photo;
