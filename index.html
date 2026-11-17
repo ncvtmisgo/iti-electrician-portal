@@ -1,464 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DGT / NCVT ITI Electrician Certificate & Modern Marksheet Portal</title>
+    <title>ITI Trainee Verification Portal</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- QRious Library for generating QR Codes -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
         @media print {
-            body * { visibility: hidden; }
-            #printable-area, #printable-area * { visibility: visible; }
-            #printable-area { position: absolute; left: 0; top: 0; width: 100%; }
-            .no-print { display: none !important; }
-        }
-        .cert-box {
-            border: 6px double #1e3a8a;
-            background: #fffdf9;
-        }
-        .marksheet-box {
-            background: #ffffff;
-            border: 1px solid #cbd5e1;
-        }
-        .emblem-gold {
-            filter: drop-shadow(0px 1px 1px rgba(180, 83, 9, 0.5));
+            body { background: white; }
+            .no-print { display: none; }
         }
     </style>
 </head>
-<body class="bg-slate-100 text-gray-800 font-sans antialiased">
+<body class="bg-gray-100 font-sans text-gray-800">
 
-    <!-- Header -->
-    <header class="bg-blue-900 text-white py-4 shadow-md no-print">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-            <h1 class="text-xl font-bold">DGT / NCVT ITI Digital Portal & Verification</h1>
-            <div class="flex gap-2 mt-2 md:mt-0">
-                <button onclick="switchTab('generator')" class="px-4 py-2 bg-blue-700 hover:bg-blue-600 rounded text-sm font-semibold transition">Generate Documents</button>
-                <button onclick="switchTab('verify')" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 rounded text-sm font-semibold transition">QR Verification Portal</button>
+    <!-- Top Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200 py-3 px-4">
+        <div class="max-w-3xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <span class="bg-blue-600 text-white font-bold text-xs px-2.5 py-1 rounded">ITI VERIFIED</span>
+                <span class="text-sm font-semibold text-gray-700">National Skill Development Portal</span>
+            </div>
+            <div>
+                <button onclick="window.print()" class="no-print bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-semibold px-3 py-1.5 rounded transition">Print / Save PDF</button>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-4 py-6">
+    <!-- Main Container -->
+    <main class="max-w-3xl mx-auto my-6 bg-white shadow-md rounded-lg overflow-hidden border border-gray-200">
+        
+        <!-- Heading -->
+        <div class="bg-gradient-to-r from-blue-700 to-indigo-800 text-white text-center py-4 px-6">
+            <h1 class="text-xl font-bold tracking-wide">Trainee Profile & Marksheet</h1>
+            <p class="text-xs text-blue-200 mt-1">Official Certificate & QR Code Verification System</p>
+        </div>
 
-        <!-- TAB 1: GENERATOR -->
-        <div id="tab-generator" class="space-y-6">
-            <div class="bg-white p-6 rounded-lg shadow-md no-print">
-                <h2 class="text-lg font-bold text-blue-900 mb-4 border-b pb-2">Student & Document Details Input</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Student Name</label>
-                        <input type="text" id="inputName" value="KARAN" class="w-full border rounded p-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Father's Name</label>
-                        <input type="text" id="inputFather" value="GURJIT PAL" class="w-full border rounded p-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Date of Birth</label>
-                        <input type="text" id="inputDob" value="27-Apr-2007" class="w-full border rounded p-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Roll No / Reg. No</label>
-                        <input type="text" id="inputRoll" value="00250803016920" class="w-full border rounded p-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Certificate No</label>
-                        <input type="text" id="inputCertNo" value="210340000001439" class="w-full border rounded p-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Institute Name & Address</label>
-                        <input type="text" id="inputInst" value="PR03000386-BABA NAND SINGH PRIVATE ITI, AJITWAL ROAD VPO DHUDI, MOGA, PUNJAB-142053" class="w-full border rounded p-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Admission Session</label>
-                        <input type="text" id="inputSession" value="Aug 2025" class="w-full border rounded p-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Exam Month-Year</label>
-                        <input type="text" id="inputExamDate" value="Jul 2026" class="w-full border rounded p-2 text-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold uppercase text-gray-600 mb-1">Document View</label>
-                        <select id="docTypeSelect" class="w-full border rounded p-2 text-sm bg-white" onchange="updateView()">
-                            <option value="marksheet1">Year-1 Statement of Marks (Modern Format)</option>
-                            <option value="marksheet2">Year-2 Statement of Marks (Modern Format)</option>
-                            <option value="certificate">National Trade Certificate (NTC)</option>
-                        </select>
-                    </div>
+        <!-- Trainee Details Section -->
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
+                <!-- Trainee Photo -->
+                <div class="flex-shrink-0">
+                    <img id="trainee-photo" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80" alt="Trainee Photo" class="w-28 h-28 rounded-full object-cover border-4 border-blue-100 shadow">
                 </div>
-                <div class="mt-4 flex gap-3">
-                    <button onclick="updateView()" class="px-5 py-2 bg-blue-600 text-white font-semibold rounded text-sm hover:bg-blue-700 shadow">Update Preview</button>
-                    <button onclick="window.print()" class="px-5 py-2 bg-gray-800 text-white font-semibold rounded text-sm hover:bg-gray-900 shadow">Print / Save PDF</button>
+                <!-- Basic Info -->
+                <div class="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 text-sm w-full">
+                    <div><span class="text-gray-500 block text-xs">Roll No</span><strong id="val-roll" class="text-gray-900">R190803019761</strong></div>
+                    <div><span class="text-gray-500 block text-xs">Name</span><strong id="val-name" class="text-gray-900">AJAY SINGH</strong></div>
+                    <div><span class="text-gray-500 block text-xs">Father Name</span><strong id="val-father" class="text-gray-900">MAJOR SINGH</strong></div>
+                    <div><span class="text-gray-500 block text-xs">Trade</span><strong id="val-trade" class="text-gray-900">Electrician (NSQF) [442]</strong></div>
+                    <div><span class="text-gray-500 block text-xs">Admission Year</span><strong id="val-admission" class="text-gray-900">2019</strong></div>
+                    <div><span class="text-gray-500 block text-xs">Date of Birth</span><strong id="val-dob" class="text-gray-900">03-Jun-2001</strong></div>
+                    <div><span class="text-gray-500 block text-xs">ITI Code & Name</span><strong id="val-iti" class="text-gray-900">GR03000313 - Bhan Suhella Pvt. Iti</strong></div>
+                    <div><span class="text-gray-500 block text-xs">Shift / Unit</span><strong id="val-shift" class="text-gray-900">Shift: 2 | Unit: 1</strong></div>
                 </div>
             </div>
-
-            <!-- PREVIEW AREA -->
-            <div id="printable-area" class="flex justify-center">
-
-                <!-- 1. MODERN MARKHEET YEAR-1 TEMPLATE -->
-                <div id="view-marksheet1" class="w-[850px] marksheet-box p-8 relative shadow-2xl">
-                    <div class="flex justify-between items-start border-b pb-3 mb-3">
-                        <div class="text-xs">
-                            <p><strong>Roll No.:</strong> <span id="lblRoll1">00250803016920</span></p>
-                        </div>
-                        <div class="text-center flex flex-col items-center">
-                            <!-- Golden National Emblem SVG -->
-                            <svg class="w-10 h-14 emblem-gold mb-1" viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M120 20C100 20 85 35 85 55C85 68 95 78 105 85C90 95 80 110 80 135C80 160 100 180 110 185C100 195 90 215 90 240C90 265 110 285 120 290C130 285 150 265 150 240C150 215 140 195 130 185C140 180 160 160 160 135C160 110 150 95 135 85C145 78 155 68 155 55C155 35 140 20 120 20Z" fill="url(#goldGrad)"/>
-                                <rect x="70" y="295" width="100" height="18" rx="4" fill="url(#goldGrad2)"/>
-                                <text x="120" y="309" font-size="11" font-weight="bold" fill="#78350f" text-anchor="middle" font-family="sans-serif">सत्यमेव जयते</text>
-                                <defs>
-                                    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#fef08a"/>
-                                        <stop offset="40%" stop-color="#eab308"/>
-                                        <stop offset="100%" stop-color="#a16207"/>
-                                    </linearGradient>
-                                    <linearGradient id="goldGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="#fde047"/>
-                                        <stop offset="100%" stop-color="#ca8a04"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <h3 class="font-bold text-sm tracking-wide">STATEMENT OF MARKS FOR AITT CONDUCTED BY D.G.T</h3>
-                            <p class="text-[11px] text-gray-600">Directorate General of Training (DGT)* • Craftsmen Training Scheme (CTS)</p>
-                            <p class="text-[11px] font-semibold">Admission Session - <span id="lblSession1">Aug 2025</span></p>
-                            <h4 class="text-xs font-bold text-blue-900 mt-1">Year - 1 (Annual Examination) 2 Year Engineering Trade</h4>
-                        </div>
-                        <div>
-                            <canvas id="qrMark1" class="w-16 h-16 border p-1 bg-white"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="space-y-1 text-xs mb-4 border-b pb-3 bg-slate-50 p-3 rounded">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div><span class="text-gray-500">Name:</span> <strong id="lblMarkName1">KARAN</strong></div>
-                            <div><span class="text-gray-500">Registration/Roll No.:</span> <strong id="lblRegMark1">00250803016920</strong></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div><span class="text-gray-500">Father/Guardian Name:</span> <strong id="lblMarkFather1">GURJIT PAL</strong></div>
-                            <div><span class="text-gray-500">Date of Birth:</span> <strong id="lblDob1">27-Apr-2007</strong></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div><span class="text-gray-500">Trade Name:</span> <strong>Electrician (NSQF)</strong></div>
-                            <div><span class="text-gray-500">NSQF Level:</span> <strong>4</strong> &nbsp;&nbsp;&nbsp;&nbsp; <span class="text-gray-500">Exam Month-Year:</span> <strong id="lblExamDate1">Jul 2026</strong></div>
-                        </div>
-                        <div><span class="text-gray-500">ITI Name & Address:</span> <strong id="lblMarkInst1">PR03000386-BABA NAND SINGH PRIVATE ITI, AJITWAL ROAD VPO DHUDI, MOGA, PUNJAB-142053</strong></div>
-                    </div>
-
-                    <table class="w-full text-xs border-collapse border border-gray-300 mb-3">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="border p-2 text-center w-12">S.No.</th>
-                                <th class="border p-2 text-left">Subjects</th>
-                                <th class="border p-2 text-center w-24">Max. Marks</th>
-                                <th class="border p-2 text-center w-24">Min. Pass Marks</th>
-                                <th class="border p-2 text-center w-32">Marks Secured/Grade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td class="border p-2 text-center">1</td><td class="border p-2">Employability Skills (Core Skill)</td><td class="border p-2 text-center">50</td><td class="border p-2 text-center">17</td><td class="border p-2 text-center font-bold">34</td></tr>
-                            <tr><td class="border p-2 text-center">2</td><td class="border p-2">Trade Theory (Professional Knowledge)**</td><td class="border p-2 text-center">100</td><td class="border p-2 text-center">33</td><td class="border p-2 text-center font-bold">62</td></tr>
-                            <tr><td class="border p-2 text-center">3</td><td class="border p-2">Trade Practical (Professional Skill) Assessment</td><td class="border p-2 text-center">250</td><td class="border p-2 text-center">150</td><td class="border p-2 text-center font-bold">238</td></tr>
-                            <tr><td class="border p-2 text-center">4</td><td class="border p-2">Formative Assessment</td><td class="border p-2 text-center">200</td><td class="border p-2 text-center">120</td><td class="border p-2 text-center font-bold">196</td></tr>
-                            <tr class="bg-gray-50 font-bold"><td colspan="2" class="border p-2 text-right">Total</td><td class="border p-2 text-center">600</td><td class="border p-2"></td><td class="border p-2 text-center text-blue-900">530</td></tr>
-                            <tr><td class="border p-2 text-center">5</td><td class="border p-2">Project Work</td><td class="border p-2 text-center">-</td><td class="border p-2 text-center">-</td><td class="border p-2 text-center font-bold text-emerald-700">A</td></tr>
-                        </tbody>
-                    </table>
-
-                    <div class="flex justify-between items-center text-xs mb-3 font-semibold">
-                        <p>Result Date: <span class="font-normal">10-Aug-2026</span></p>
-                        <p>Result: <span class="text-emerald-700 font-bold">Pass</span></p>
-                    </div>
-
-                    <div class="text-[10px] text-gray-600 space-y-1 mb-6 border-t pt-2">
-                        <p><strong>Note:</strong> 1. Minimum pass marks for theoretical paper-33%, for Practical and Formative assessment - 60%</p>
-                        <p>* Directorate General of Training (DGT) is recognised as awarding body by NCVET.</p>
-                        <p>** Vide order no-MSDE(DGT)-19/03/(02)/2022-CD dated 5th April 2022, Trade Theory (Professional Knowledge) includes Engineering Drawing and Workshop Calculation & Science for Engineering Trades.</p>
-                    </div>
-
-                    <div class="flex justify-between items-end text-xs pt-4 border-t">
-                        <div><p><strong>Date Of Printing:</strong> 19-Aug-2026</p></div>
-                        <div class="text-center"><div class="font-bold border-t border-black pt-1 px-6">Controller of Examination</div></div>
-                    </div>
-
-                    <div class="mt-4 text-[9px] text-gray-500 border-t pt-2">
-                        This is a digitally signed, computer generated Mark Sheet. All contents of this Mark Sheet can be verified for authenticity by the process of online verification through scanning the QR code printed above.
-                    </div>
-                </div>
-
-                <!-- 2. MODERN MARKHEET YEAR-2 TEMPLATE -->
-                <div id="view-marksheet2" class="w-[850px] marksheet-box p-8 relative shadow-2xl hidden">
-                    <div class="flex justify-between items-start border-b pb-3 mb-3">
-                        <div class="text-xs">
-                            <p><strong>Roll No.:</strong> <span id="lblRoll2">00250803016920</span></p>
-                        </div>
-                        <div class="text-center flex flex-col items-center">
-                            <!-- Golden National Emblem SVG -->
-                            <svg class="w-10 h-14 emblem-gold mb-1" viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M120 20C100 20 85 35 85 55C85 68 95 78 105 85C90 95 80 110 80 135C80 160 100 180 110 185C100 195 90 215 90 240C90 265 110 285 120 290C130 285 150 265 150 240C150 215 140 195 130 185C140 180 160 160 160 135C160 110 150 95 135 85C145 78 155 68 155 55C155 35 140 20 120 20Z" fill="url(#goldGrad2_v2)"/>
-                                <rect x="70" y="295" width="100" height="18" rx="4" fill="url(#goldGrad2_v3)"/>
-                                <text x="120" y="309" font-size="11" font-weight="bold" fill="#78350f" text-anchor="middle" font-family="sans-serif">सत्यमेव जयते</text>
-                                <defs>
-                                    <linearGradient id="goldGrad2_v2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#fef08a"/>
-                                        <stop offset="40%" stop-color="#eab308"/>
-                                        <stop offset="100%" stop-color="#a16207"/>
-                                    </linearGradient>
-                                    <linearGradient id="goldGrad2_v3" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="#fde047"/>
-                                        <stop offset="100%" stop-color="#ca8a04"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <h3 class="font-bold text-sm tracking-wide">STATEMENT OF MARKS FOR AITT CONDUCTED BY D.G.T</h3>
-                            <p class="text-[11px] text-gray-600">Directorate General of Training (DGT)* • Craftsmen Training Scheme (CTS)</p>
-                            <p class="text-[11px] font-semibold">Admission Session - <span id="lblSession2">Aug 2025</span></p>
-                            <h4 class="text-xs font-bold text-blue-900 mt-1">Year - 2 (Annual Examination) 2 Year Engineering Trade</h4>
-                        </div>
-                        <div>
-                            <canvas id="qrMark2" class="w-16 h-16 border p-1 bg-white"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="space-y-1 text-xs mb-4 border-b pb-3 bg-slate-50 p-3 rounded">
-                        <div class="grid grid-cols-2 gap-2">
-                            <div><span class="text-gray-500">Name:</span> <strong id="lblMarkName2">KARAN</strong></div>
-                            <div><span class="text-gray-500">Registration/Roll No.:</span> <strong id="lblRegMark2">00250803016920</strong></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div><span class="text-gray-500">Father/Guardian Name:</span> <strong id="lblMarkFather2">GURJIT PAL</strong></div>
-                            <div><span class="text-gray-500">Date of Birth:</span> <strong id="lblDob2">27-Apr-2007</strong></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div><span class="text-gray-500">Trade Name:</span> <strong>Electrician (NSQF)</strong></div>
-                            <div><span class="text-gray-500">NSQF Level:</span> <strong>4</strong> &nbsp;&nbsp;&nbsp;&nbsp; <span class="text-gray-500">Exam Month-Year:</span> <strong id="lblExamDate2">Jul 2026</strong></div>
-                        </div>
-                        <div><span class="text-gray-500">ITI Name & Address:</span> <strong id="lblMarkInst2">PR03000386-BABA NAND SINGH PRIVATE ITI, AJITWAL ROAD VPO DHUDI, MOGA, PUNJAB-142053</strong></div>
-                    </div>
-
-                    <table class="w-full text-xs border-collapse border border-gray-300 mb-3">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="border p-2 text-center w-12">S.No.</th>
-                                <th class="border p-2 text-left">Subjects</th>
-                                <th class="border p-2 text-center w-24">Max. Marks</th>
-                                <th class="border p-2 text-center w-24">Min. Pass Marks</th>
-                                <th class="border p-2 text-center w-32">Marks Secured/Grade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td class="border p-2 text-center">1</td><td class="border p-2">Employability Skills (Core Skill)</td><td class="border p-2 text-center">50</td><td class="border p-2 text-center">17</td><td class="border p-2 text-center font-bold">40</td></tr>
-                            <tr><td class="border p-2 text-center">2</td><td class="border p-2">Trade Theory (Professional Knowledge)**</td><td class="border p-2 text-center">100</td><td class="border p-2 text-center">33</td><td class="border p-2 text-center font-bold">75</td></tr>
-                            <tr><td class="border p-2 text-center">3</td><td class="border p-2">Trade Practical (Professional Skill) Assessment</td><td class="border p-2 text-center">250</td><td class="border p-2 text-center">150</td><td class="border p-2 text-center font-bold">220</td></tr>
-                            <tr><td class="border p-2 text-center">4</td><td class="border p-2">Formative Assessment</td><td class="border p-2 text-center">200</td><td class="border p-2 text-center">120</td><td class="border p-2 text-center font-bold">185</td></tr>
-                            <tr class="bg-gray-50 font-bold"><td colspan="2" class="border p-2 text-right">Total</td><td class="border p-2 text-center">600</td><td class="border p-2"></td><td class="border p-2 text-center text-blue-900">520</td></tr>
-                            <tr><td class="border p-2 text-center">5</td><td class="border p-2">Project Work</td><td class="border p-2 text-center">-</td><td class="border p-2 text-center">-</td><td class="border p-2 text-center font-bold text-emerald-700">A</td></tr>
-                        </tbody>
-                    </table>
-
-                    <div class="flex justify-between items-center text-xs mb-3 font-semibold">
-                        <p>Result Date: <span class="font-normal">10-Aug-2026</span></p>
-                        <p>Result: <span class="text-emerald-700 font-bold">Pass</span></p>
-                    </div>
-
-                    <div class="text-[10px] text-gray-600 space-y-1 mb-6 border-t pt-2">
-                        <p><strong>Note:</strong> 1. Minimum pass marks for theoretical paper-33%, for Practical and Formative assessment - 60%</p>
-                        <p>* Directorate General of Training (DGT) is recognised as awarding body by NCVET.</p>
-                        <p>** Vide order no-MSDE(DGT)-19/03/(02)/2022-CD dated 5th April 2022, Trade Theory (Professional Knowledge) includes Engineering Drawing and Workshop Calculation & Science for Engineering Trades.</p>
-                    </div>
-
-                    <div class="flex justify-between items-end text-xs pt-4 border-t">
-                        <div><p><strong>Date Of Printing:</strong> 19-Aug-2026</p></div>
-                        <div class="text-center"><div class="font-bold border-t border-black pt-1 px-6">Controller of Examination</div></div>
-                    </div>
-
-                    <div class="mt-4 text-[9px] text-gray-500 border-t pt-2">
-                        This is a digitally signed, computer generated Mark Sheet. All contents of this Mark Sheet can be verified for authenticity by the process of online verification through scanning the QR code printed above.
-                    </div>
-                </div>
-
-                <!-- 3. CERTIFICATE TEMPLATE -->
-                <div id="view-certificate" class="w-[850px] cert-box p-8 relative shadow-2xl hidden">
-                    <div class="flex justify-between items-start border-b-2 border-blue-900 pb-4 mb-4">
-                        <div class="text-xs space-y-1">
-                            <p><strong>Reg. No.</strong> <span id="lblReg1">00250803016920</span></p>
-                        </div>
-                        <div class="text-center flex flex-col items-center">
-                            <!-- Golden National Emblem SVG -->
-                            <svg class="w-10 h-14 emblem-gold mb-1" viewBox="0 0 240 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M120 20C100 20 85 35 85 55C85 68 95 78 105 85C90 95 80 110 80 135C80 160 100 180 110 185C100 195 90 215 90 240C90 265 110 285 120 290C130 285 150 265 150 240C150 215 140 195 130 185C140 180 160 160 160 135C160 110 150 95 135 85C145 78 155 68 155 55C155 35 140 20 120 20Z" fill="url(#goldGrad3_v4)"/>
-                                <rect x="70" y="295" width="100" height="18" rx="4" fill="url(#goldGrad3_v5)"/>
-                                <text x="120" y="309" font-size="11" font-weight="bold" fill="#78350f" text-anchor="middle" font-family="sans-serif">सत्यमेव जयते</text>
-                                <defs>
-                                    <linearGradient id="goldGrad3_v4" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stop-color="#fef08a"/>
-                                        <stop offset="40%" stop-color="#eab308"/>
-                                        <stop offset="100%" stop-color="#a16207"/>
-                                    </linearGradient>
-                                    <linearGradient id="goldGrad3_v5" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" stop-color="#fde047"/>
-                                        <stop offset="100%" stop-color="#ca8a04"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            <p class="font-bold text-sm">भारत सरकार / GOVERNMENT OF INDIA</p>
-                            <p class="text-xs">MINISTRY OF SKILL DEVELOPMENT AND ENTREPRENEURSHIP</p>
-                            <p class="text-xs font-semibold text-blue-800">DIRECTORATE GENERAL OF TRAINING (DGT)</p>
-                            <h2 class="text-lg font-extrabold mt-1 tracking-wider text-blue-900">NATIONAL TRADE CERTIFICATE</h2>
-                        </div>
-                        <div>
-                            <canvas id="qrCert" class="w-20 h-20 border p-1 bg-white"></canvas>
-                            <p class="text-[9px] text-center mt-1 text-gray-500">Scan to Verify</p>
-                        </div>
-                    </div>
-
-                    <div class="my-6 space-y-3 text-sm">
-                        <p class="italic text-xs text-gray-600">प्रमाणित किया जाता है कि This is to certify that</p>
-                        <div class="grid grid-cols-2 gap-4 border-b pb-2">
-                            <div><span class="text-xs text-gray-500 block">Shri/Smt/Kumari:</span><strong id="lblName" class="text-base">KARAN</strong></div>
-                            <div><span class="text-xs text-gray-500 block">Son/Wife/Daughter of Shri:</span><strong id="lblFather">GURJIT PAL</strong></div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 border-b pb-2">
-                            <div><span class="text-xs text-gray-500 block">Date of Birth:</span><strong id="lblDob">27-Apr-2007</strong></div>
-                            <div><span class="text-xs text-gray-500 block">Trade Name:</span><strong>Electrician (NSQF)</strong></div>
-                        </div>
-                        <div class="grid grid-cols-1 border-b pb-2">
-                            <div><span class="text-xs text-gray-500 block">Institute Name & Address:</span><strong id="lblInst">PR03000386-BABA NAND SINGH PRIVATE ITI, AJITWAL ROAD VPO DHUDI, MOGA, PUNJAB-142053</strong></div>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-between items-end mt-12 pt-6 border-t border-gray-300 text-xs">
-                        <div>
-                            <p><strong>Date:</strong> 19-Aug-2026</p>
-                            <p class="mt-2 text-[10px] text-gray-600 max-w-sm">DGT is recognised as Awarding Body by NCVT. All contents of this certificate can be verified online by scanning the QR code.</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="font-bold border-t border-black pt-1 px-4">Controller of Examination</div>
-                            <p class="text-[10px]">Directorate General of Training</p>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="mt-4 pt-3 border-t border-gray-100 flex justify-between text-xs text-gray-600">
+                <span>Eligible to Reappear: <strong id="val-reappear" class="text-green-600">No</strong></span>
+                <span class="bg-green-100 text-green-800 px-2 py-0.5 rounded font-semibold" id="val-status-badge">Verified & Authentic</span>
             </div>
         </div>
 
-        <!-- TAB 2: VERIFICATION PORTAL -->
-        <div id="tab-verify" class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md hidden">
-            <h2 class="text-xl font-bold text-blue-900 mb-2 border-b pb-3">NCVT MIS Portal - Certificate & Marksheet Verification</h2>
-            <p class="text-xs text-gray-600 mb-6">Simulation of NCVT Government Verification page triggered when scanning QR codes.</p>
-            
-            <div class="space-y-4">
+        <!-- Marks / Examination Table -->
+        <div class="p-6">
+            <h2 class="text-md font-bold text-gray-700 mb-3">Semester / Year Examination Marks</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-700 uppercase text-xs">
+                            <th class="py-2.5 px-3 border-b">Subjects</th>
+                            <th class="py-2.5 px-3 border-b text-center">Max Marks</th>
+                            <th class="py-2.5 px-3 border-b text-center">Min Pass Marks</th>
+                            <th class="py-2.5 px-3 border-b text-center">Marks Obtained</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200 text-gray-700" id="marks-table-body">
+                        <tr>
+                            <td class="py-2.5 px-3">Trade Theory</td>
+                            <td class="py-2.5 px-3 text-center">100</td>
+                            <td class="py-2.5 px-3 text-center">33</td>
+                            <td class="py-2.5 px-3 text-center font-semibold">82</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2.5 px-3">Employability Skills</td>
+                            <td class="py-2.5 px-3 text-center">50</td>
+                            <td class="py-2.5 px-3 text-center">17</td>
+                            <td class="py-2.5 px-3 text-center font-semibold">41</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2.5 px-3">Workshop Calculation and Science</td>
+                            <td class="py-2.5 px-3 text-center">50</td>
+                            <td class="py-2.5 px-3 text-center">17</td>
+                            <td class="py-2.5 px-3 text-center font-semibold">38</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2.5 px-3">Engineering Drawing</td>
+                            <td class="py-2.5 px-3 text-center">50</td>
+                            <td class="py-2.5 px-3 text-center">17</td>
+                            <td class="py-2.5 px-3 text-center font-semibold">42</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2.5 px-3">Trade Practical</td>
+                            <td class="py-2.5 px-3 text-center">250</td>
+                            <td class="py-2.5 px-3 text-center">150</td>
+                            <td class="py-2.5 px-3 text-center font-semibold">210</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2.5 px-3">Formative Assessment</td>
+                            <td class="py-2.5 px-3 text-center">200</td>
+                            <td class="py-2.5 px-3 text-center">120</td>
+                            <td class="py-2.5 px-3 text-center font-semibold">175</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="bg-gray-50 font-bold text-gray-900">
+                            <td class="py-3 px-3">Total Marks</td>
+                            <td class="py-3 px-3 text-center">700</td>
+                            <td class="py-3 px-3 text-center">-</td>
+                            <td class="py-3 px-3 text-center text-blue-600">588</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- Result Summary Box -->
+            <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4 flex flex-col sm:flex-row justify-between items-center text-sm">
                 <div>
-                    <label class="block text-xs font-bold uppercase text-gray-700 mb-1">Enter Registration No / Roll No / Certificate No</label>
-                    <div class="flex gap-2">
-                        <input type="text" id="verifyInput" value="210340000001439" class="w-full border rounded p-2 text-sm">
-                        <button onclick="runVerification()" class="px-5 py-2 bg-emerald-600 text-white font-semibold rounded text-sm hover:bg-emerald-700">Verify</button>
-                    </div>
+                    <p class="text-gray-600">Result Date: <strong class="text-gray-900" id="val-res-date">26-Feb-2022</strong></p>
                 </div>
-
-                <div id="verifyResult" class="mt-6 p-4 border rounded bg-emerald-50 border-emerald-300 hidden">
-                    <div class="flex items-center gap-2 text-emerald-800 font-bold mb-2">
-                        <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                        <span>Verified Successfully: Genuine NCVT Document</span>
-                    </div>
-                    <div class="text-xs space-y-1 text-gray-700">
-                        <p><strong>Candidate Name:</strong> <span id="vName">KARAN</span></p>
-                        <p><strong>Father's Name:</strong> <span id="vFather">GURJIT PAL</span></p>
-                        <p><strong>Trade:</strong> Electrician (NSQF Level 4)</p>
-                        <p><strong>Certificate No:</strong> <span id="vCert">210340000001439</span></p>
-                        <p><strong>Institute:</strong> BABA NAND SINGH PRIVATE ITI MOGA</p>
-                        <p><strong>Status:</strong> <span class="text-emerald-700 font-bold">APPROVED / VALID</span></p>
-                    </div>
+                <div class="mt-2 sm:mt-0">
+                    <span class="text-gray-600 mr-2">Final Result Status:</span>
+                    <span class="bg-green-600 text-white font-bold px-4 py-1.5 rounded-full uppercase text-xs" id="val-result">Pass</span>
                 </div>
             </div>
         </div>
 
+        <!-- Footer -->
+        <div class="bg-gray-50 py-3 px-6 text-center text-xs text-gray-500 border-t border-gray-200">
+            Digital Certificate Verification System &bull; Powered by GitHub Pages
+        </div>
     </main>
 
+    <!-- JavaScript to handle Dynamic URL parameters (e.g. ?roll=R190803019761) -->
     <script>
-        function updateView() {
-            const name = document.getElementById('inputName').value;
-            const father = document.getElementById('inputFather').value;
-            const dob = document.getElementById('inputDob').value;
-            const roll = document.getElementById('inputRoll').value;
-            const certNo = document.getElementById('inputCertNo').value;
-            const inst = document.getElementById('inputInst').value;
-            const session = document.getElementById('inputSession').value;
-            const examDate = document.getElementById('inputExamDate').value;
-            const docType = document.getElementById('docTypeSelect').value;
-
-            // Update Certificate Fields
-            document.getElementById('lblReg1').innerText = roll;
-            document.getElementById('lblName').innerText = name;
-            document.getElementById('lblFather').innerText = father;
-            document.getElementById('lblDob').innerText = dob;
-            document.getElementById('lblInst').innerText = inst;
-
-            // Update Marksheet Fields (Year 1 & Year 2)
-            ['1', '2'].forEach(id => {
-                document.getElementById('lblRoll' + id).innerText = roll;
-                document.getElementById('lblRegMark' + id).innerText = roll;
-                document.getElementById('lblMarkName' + id).innerText = name;
-                document.getElementById('lblMarkFather' + id).innerText = father;
-                document.getElementById('lblDob' + id).innerText = dob;
-                document.getElementById('lblSession' + id).innerText = session;
-                document.getElementById('lblExamDate' + id).innerText = examDate;
-                document.getElementById('lblMarkInst' + id).innerText = inst;
-            });
-
-            // Toggle views
-            document.getElementById('view-certificate').classList.add('hidden');
-            document.getElementById('view-marksheet1').classList.add('hidden');
-            document.getElementById('view-marksheet2').classList.add('hidden');
-
-            if(docType === 'marksheet1') {
-                document.getElementById('view-marksheet1').classList.remove('hidden');
-            } else if(docType === 'marksheet2') {
-                document.getElementById('view-marksheet2').classList.remove('hidden');
-            } else if(docType === 'certificate') {
-                document.getElementById('view-certificate').classList.remove('hidden');
+        const studentDatabase = {
+            "R190803019761": {
+                roll: "R190803019761",
+                name: "AJAY SINGH",
+                father: "MAJOR SINGH",
+                trade: "Electrician (NSQF) [442]",
+                admission: "2019",
+                dob: "03-Jun-2001",
+                iti: "GR03000313 - Bhan Suhella Pvt. Iti",
+                shift: "Shift: 2 | Unit: 1",
+                reappear: "No",
+                resDate: "26-Feb-2022",
+                result: "Pass",
+                photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80"
             }
-
-            // Generate QR Codes pointing to verification with ID
-            const verifyUrl = window.location.href.split('#')[0] + "#verify:" + certNo;
-            
-            new QRious({ element: document.getElementById('qrMark1'), value: verifyUrl, size: 100 });
-            new QRious({ element: document.getElementById('qrMark2'), value: verifyUrl, size: 100 });
-            new QRious({ element: document.getElementById('qrCert'), value: verifyUrl, size: 120 });
-        }
-
-        function switchTab(tab) {
-            if(tab === 'generator') {
-                document.getElementById('tab-generator').classList.remove('hidden');
-                document.getElementById('tab-verify').classList.add('hidden');
-            } else {
-                document.getElementById('tab-generator').classList.add('hidden');
-                document.getElementById('tab-verify').classList.remove('hidden');
-            }
-        }
-
-        function runVerification() {
-            const val = document.getElementById('verifyInput').value;
-            if(val) {
-                document.getElementById('verifyResult').classList.remove('hidden');
-                document.getElementById('vCert').innerText = val;
-            }
-        }
-
-        window.onload = function() {
-            updateView();
-            if(window.location.hash.includes('verify')) {
-                switchTab('verify');
-                const parts = window.location.hash.split(':');
-                if(parts[1]) {
-                    document.getElementById('verifyInput').value = parts[1];
-                    runVerification();
-                }
-            }
+            // ਤੁਸੀਂ ਇਸ ਵਿੱਚ ਹੋਰ ਸਟੂਡੈਂਟਸ ਦਾ ਡਾਟਾ ਵੀ ਜੋੜ ਸਕਦੇ ਹੋ
         };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const rollParam = urlParams.get('roll');
+
+        if (rollParam && studentDatabase[rollParam]) {
+            const data = studentDatabase[rollParam];
+            document.getElementById('val-roll').innerText = data.roll;
+            document.getElementById('val-name').innerText = data.name;
+            document.getElementById('val-father').innerText = data.father;
+            document.getElementById('val-trade').innerText = data.trade;
+            document.getElementById('val-admission').innerText = data.admission;
+            document.getElementById('val-dob').innerText = data.dob;
+            document.getElementById('val-iti').innerText = data.iti;
+            document.getElementById('val-shift').innerText = data.shift;
+            document.getElementById('val-reappear').innerText = data.reappear;
+            document.getElementById('val-res-date').innerText = data.resDate;
+            document.getElementById('val-result').innerText = data.result;
+            document.getElementById('trainee-photo').src = data.photo;
+        }
     </script>
 </body>
 </html>
